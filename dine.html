@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Order in Chennai</title>
+<style>  /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f9f9f9;
+      color: #333;
+    }
+    .container {
+  max-width: 1200px;      /* adjust like Swiggy */
+  margin: 0 auto;          /* center container */
+  padding: 0 15px;         /* left/right gap */
+}
+
+
+    /* Header */
+    header {
+      position: fixed;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo img {
+      height: 40px;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+    .location-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.location-icon {
+  color: #ff6b35; /* Swiggy orange */
+  font-size: 18px;
+}
+
+#manualLocation {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 14px;
+  outline: none;
+}
+
+#locateBtn {
+  background: #ff6b35;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+#locateBtn:hover {
+  background: #e65a2a;
+}
+
+    .search-bar{
+      margin-left: auto;
+    }
+
+    .search-bar input {
+      padding: 8px 12px;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      outline: none;
+      left:90%;
+
+    }
+
+    .profile-icon {
+      width: 35px;
+      height: 35px;
+      background: #ccc;
+      border-radius: 50%;
+      display: inline-block;
+      text-align: center;
+      line-height: 35px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+   .hero {
+  position: relative;
+  width: 100%;
+  height: 50vh;
+  overflow: hidden;
+  border-top-left-radius: 50px;   /* curve bottom-left */
+   border-top-right-radius: 50px;  /* curve bottom-right */
+   border-bottom-left-radius: 50px;   /* curve bottom-left */
+   border-bottom-right-radius: 50px;  /* curve bottom-right */
+}
+
+
+.hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* fills container */
+  display: block;
+}
+
+
+
+/* Overlay content */
+.hero-overlay {
+  position: absolute;
+  top: 60px;
+  left: -50px;
+  width: 100%;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+  align-items: left;
+  color: #fff;
+  text-align: right;
+}
+    .hero-overlay img {
+  position: absolute;
+  top: -50px;
+  left: 100px;
+  width: 5%;
+  height: 20%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  text-align: center;
+}
+
+.hero-overlay h1 {
+  font-size: 38px;
+  font-weight: bold;
+  margin:0;
+
+}
+/* Grid layout */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
+    .card {
+      position: relative;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      background: white;
+    }
+
+    /* Image slider */
+    .image-slider {
+      position: relative;
+      width: 100%;
+      height: 200px;
+    }
+
+    .image-slider img {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      opacity: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    .image-slider img.active {
+      opacity: 1;
+    }
+
+    .card-content {
+      padding: 15px;
+    }
+
+    .card-content h3 {
+      margin: 0;
+      font-size: 18px;
+    }
+
+    .card-content p {
+      font-size: 14px;
+      color: #666;
+      margin: 4px 0;
+    }
+
+    .offer {
+      background: #e6f9f0;
+      color: #0a8f5f;
+      padding: 6px;
+      border-radius: 6px;
+      margin-top: 8px;
+      font-size: 13px;
+      display: inline-block;
+    }
+.cities {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: Arial, sans-serif;
+}
+
+.cities h2 {
+  margin: 20px 0 15px;
+  font-size: 20px;
+}
+
+.city-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.city-grid a {
+  display: block;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.city-grid a:hover {
+  background: #f9f9f9;
+}
+/* Hide all links after the 6th, except the show-more button */
+#food-cities a:not(.show-more):nth-of-type(n+7) {
+  display: none;
+}
+
+/* When expanded, show all items */
+#food-cities.expanded a
+{
+  display: block;
+}
+
+/* Keep the show-more button always visible */
+#food-cities .show-more
+ {
+  display: block !important;
+  color: red;
+  font-weight: bold;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+    border: 1px solid #ddd;
+}
+
+/* Footer */
+footer {
+  background:  #e65a2a;
+  padding: 30px 20px;
+  margin-top: 30px;
+  color: white;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.footer-content h4 {
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.footer-content ul {
+  list-style: none;
+}
+
+.footer-content ul li {
+  margin: 5px 0;
+}
+
+.footer-content ul li a {
+  text-decoration: none;
+  color: #333;
+}
+
+footer p {
+  text-align: center;
+  font-size: 0.9rem;
+  color: white;
+}
+
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;       /* moves to next line on small screens */
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.filter-bar button {
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 25px;
+  padding: 6px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.filter-bar button:hover {
+  background: #f5f5f5;
+}
+</style>
+</head>
+
+  <body>
+    <div class="container">
+  <!-- DEMO banner (top) -->
+  <div style="position:fixed;top:15px;left:50%;
+            transform:translateX(-50%);
+            z-index:9999;
+            background:#ffeb3b;color:#000;
+            padding:6px 12px;border-radius:6px;
+            font-weight:700;font-family:Arial;">
+  DEMO — For educational use only
+</div>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <img src="images/mlogo.jpg" alt="Logo">
+      Mockiggy |
+    </div>
+    <!-- Location bar -->
+<div class="location-bar">
+  <span class="location-icon">📍</span>
+  
+  <!-- Manual input -->
+  <input 
+    type="text" 
+    id="manualLocation" 
+    placeholder="Enter your location" 
+  />
+
+  <!-- GPS button -->
+  <button id="locateBtn">Locate Me</button>
+</div>
+
+
+    <div class="search-bar">
+      <input type="text" placeholder="Search for restaurant and food">
+    </div>
+    <div class="profile-icon">M</div>
+  </header>
+
+  <!-- Hero Section -->
+<section class="hero">
+  <img src="https://img.delicious.com.au/NE_pFRKd/del/2025/02/wineglasses-223614-1.jpg" alt="Logo">
+  
+  <!-- Overlay content -->
+  <div class="hero-overlay">
+       <img src="images/mlogo.jpg" alt="Mockiggy Logo" class="hero-logo">
+       <h1>Explore Best Dining Out Restaurants </h1>
+       <h1>In Chennai</h1>
+  </div>
+</section>
+<br>
+<div class="filter-bar">
+  <button>Filter ⚙️</button>
+  <button>Sort By ⬇️</button>
+  <button>Fast Delivery</button>
+  <button>New on Swiggy</button>
+  <button>Ratings 4.0+</button>
+  <button>Pure Veg</button>
+  <button>Offers</button>
+  <button>Rs. 300–Rs. 600</button>
+  <button>Less than Rs. 300</button>
+</div>
+<div class="grid">
+    <!-- Card 1 -->
+    <div class="card">
+      <div class="image-slider">
+        <img src="https://b.zmtcdn.com/data/pictures/8/66418/0a0a223f7388fb0dd2c50f84f1630daf_featured_v2.jpg" class="active" alt="Image 1">
+        <img src="https://content.jdmagicbox.com/v2/comp/mumbai/p9/022pxx22.xx22.230221200947.r5p9/catalogue/hotel-savera-restaurant-goregaon-west-mumbai-north-indian-restaurants-r7f6mkt7ky.jpg" alt="Image 2">
+      </div>
+      <div class="card-content">
+        <h3>Malgudi - The Savera Hotel</h3>
+        <p>Kerala • South Indian</p>
+        <p>₹3500 for two • Mylapore, Chennai</p>
+        <div class="offer">Flat 15% off on walk-in</div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card">
+      <div class="image-slider">
+        <img src="https://b.zmtcdn.com/data/pictures/2/21564562/2afeab19ce6d0b30e6a5749d12bc76fc_featured_v2.jpg" class="active" alt="Image 1">
+        <img src="https://b.zmtcdn.com/data/pictures/8/73208/1398b980f8fdce6815542fab3018eea6_featured_v2.jpg" alt="Image 2">
+      </div>
+      <div class="card-content">
+        <h3>Ranadheera</h3>
+        <p>South Indian • Tamil</p>
+        <p>₹400 for two • Velachery, Chennai</p>
+        <div class="offer">Up to 10% off with bank offers</div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card">
+      <div class="image-slider">
+        <img src="https://dineout-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/v1696522605/e4785ef440f169599909091e29f9c234.jpg" class="active" alt="Image 1">
+        <img src="https://imgstaticcontent.lbb.in/lbbnew/wp-content/uploads/2017/09/09073529/ThambiVilas5.jpg" alt="Image 2">
+      </div>
+      <div class="card-content">
+        <h3>Chettinad Aachi Kaipakkuvam</h3>
+        <p>South Indian • Tamil</p>
+        <p>₹400 for two • Velachery, Chennai</p>
+        <div class="offer">Up to 10% off with bank offers</div>
+      </div>
+    </div>
+  <div class="card">
+      <div class="image-slider">
+        <img src="https://assets.hiltonstatic.com/hilton-asset-cache/image/upload/c_fill,w_1200,h_800,q_90,f_auto/c_fill,w_1200,h_800,q_90,f_auto/Imagery/Property%20Photography/Conrad/P/PVRPMCI/PVRPMCI_Codex%20Sala.jpg" class="active" alt="Image 1">
+        <img src="https://cdn.shelborne.com/wp-content/uploads/2025/07/24195529/Miami-Spice_Blog_Hero.jpg" alt="Image 2">
+      </div>
+      <div class="card-content">
+        <h3>Paleta Hotel</h3>
+        <p>Punjab • North Indian</p>
+        <p>₹2500 for two • Mylapore, Chennai</p>
+        <div class="offer">Flat 15% off on walk-in</div>
+      </div>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="card">
+      <div class="image-slider">
+        <img src="https://www.shutterstock.com/image-photo/buffet-restaurant-hotel-260nw-234903751.jpg" class="active" alt="Image 1">
+        <img src="https://thumbs.dreamstime.com/b/catering-buffet-food-hotel-restaurant-close-up-celebration-catering-buffet-food-hotel-restaurant-close-up-restaurant-table-134632750.jpg" alt="Image 2">
+      </div>
+      <div class="card-content">
+        <h3>Barbeque Restaurant</h3>
+        <p>North Indian</p>
+        <p>₹800 for two • Velachery, Chennai</p>
+        <div class="offer">Up to 10% off with bank offers</div>
+      </div>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="card">
+      <div class="image-slider">
+        <img src="https://images.hindustantimes.com/img/2022/09/12/1600x900/f35300aa-3265-11ed-a51a-9271a4faa378_1662966201616.jpg" class="active" alt="Image 1">
+        <img src="https://4.imimg.com/data4/GI/YX/ANDROID-2848414/product-500x500.jpeg" alt="Image 2">
+      </div>
+      <div class="card-content">
+        <h3>Chat corner</h3>
+        <p>North Indian </p>
+        <p>₹200 for two • mount road, Chennai</p>
+        <div class="offer">Up to 10% off with bank offers</div>
+      </div>
+    </div>
+     <!-- Show more button -->
+  <!-- Correct for Food Cities -->
+<a href="javascript:void(0)" class="show-more" onclick="toggleCities('food-cities', this)">Show More </a>
+  </div>
+  <section class="cities">
+  <h2>Best Dining Out Cuisine Restaurants Near Me</h2>
+  <div class="city-grid" id="food-cities">
+    <a href="#">Fast Food Restaurants near me</a>
+    <a href="#">Kerala Restaurants near me</a>
+     <a href="#"> Top Restaurants near me</a>
+    <a href="#"> North Indian Restaurants near me</a>
+    <a href="#">South Indian Restaurants near me</a>
+      </div>
+<section class="cities">
+  <h2>Best Dining Restaurant Collections Near me</h2>
+  <div class="city-grid" id="food-cities">
+    <a href="#">5 Star Restaurants near me</a>
+    <a href="#">Air Conditioned Restaurants near me</a>
+    <a href="#"> Best Bars Restaurants near me</a>
+    <a href="#">Brewery Restaurants near me</a>
+    <a href="#">Brunch Restaurants near me</a>
+    <a href="#">Buffet Restaurants near me</a>
+    <a href="#">Cricket Live Screening Restaurants near me</a>
+    <a href="#">Dance Floor Restaurants near me</a>
+    
+     <!-- Show more button -->
+  <!-- Correct for Food Cities -->
+<a href="javascript:void(0)" class="show-more" onclick="toggleCities('food-cities', this)">Show More </a>
+
+  </div>
+  <footer>
+    <div class="footer-content">
+      <div>
+        <ul> <a href="#">
+        <img src="images/logo.png" alt="mockiggy Logo">
+      </a>
+    </ul></div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Mockiggy Food</a></li>
+          <li><a href="#">Mockiggy Instamart</a></li>
+           <li><a href="#">Mockiggy Groceries</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact Us</h4>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Ratings</a></li>
+          <li><a href="#">Track Order</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4>Available in:</h4>
+        <ul>
+          <li><a href="#">Bangalore</a></li>
+          <li><a href="#">Chennai</a></li>
+          <li><a href="#">Guregon</a></li>
+          <li><a href="#">Delhi</a></li>
+          <li><a href="#">Kolkata</a></li>
+          <li><a href="#">Mumbai</a></li>
+       <button>685 cities &#9662;</button>
+
+        </ul>
+      </div>
+    </div>
+    <p>&copy; This is a student demo project and is not affiliated with any commercial brand.
+
+© 2025 Mockiggy Mockup. Created for educational purposes.</p>
+  </footer>
+
+
+
+
+
+<script>
+  
+  // GPS option
+const manualInput = document.getElementById('manualLocation');
+const locateBtn = document.getElementById('locateBtn');
+
+// GPS option
+locateBtn.addEventListener('click', () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`)
+          .then(res => res.json())
+          .then(data => {
+            const address = data.display_name || `${lat.toFixed(5)}, ${lon.toFixed(5)}`;
+            manualInput.value = address; // fill input box with detected location
+          })
+          .catch(() => {
+            manualInput.value = `${lat.toFixed(5)}, ${lon.toFixed(5)}`;
+          });
+      },
+      () => {
+        manualInput.value = "Location access denied";
+      },
+      { enableHighAccuracy: true }
+    );
+  } else {
+    manualInput.value = "Geolocation not supported";
+  }
+});
+
+// Manual typing option
+manualInput.addEventListener('input', () => {
+  console.log("User entered:", manualInput.value);
+  // 👉 You can send this to backend for search suggestions
+});
+function toggleCities(id, btn) {
+  const grid = document.getElementById(id);
+  grid.classList.toggle("expanded");
+
+  // toggle button text
+  if (grid.classList.contains("expanded")) {
+    btn.innerText = "Show Less ⌃";
+  } else {
+    btn.innerText = "Show More ⌄";
+  }
+}
+// Auto slide for all cards
+    const sliders = document.querySelectorAll(".image-slider");
+
+    sliders.forEach(slider => {
+      let images = slider.querySelectorAll("img");
+      let index = 0;
+
+      setInterval(() => {
+        images[index].classList.remove("active");
+        index = (index + 1) % images.length;
+        images[index].classList.add("active");
+      }, 3000); // Change every 3 seconds
+    });
+</script>
+</div>
+</body>
+</html>

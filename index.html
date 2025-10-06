@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Swiggy Clone</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="home-body">>
+    <div class="hero-section">
+  <header>
+    
+  <a href="#" class="logo">
+  <img src="images/logo.png" alt="mwiggy Logo">
+</a>
+
+  </header><div>
+    <a href="#" class="sign-btn">Sign In</a>
+  </div>
+  </header><br>
+
+   <br>
+    <h4>Order food & groceries. Discover best restaurants. </h4><h4>Mockiggy it!</h4>
+    <div class="header-right">
+    <input type="text" id="locationInput" placeholder="Enter your delivery location">
+<button onclick="getLocation()">📍 Use Current Location</button>
+
+    <input type="text" placeholder="Search for restaurant, item or more"></div>
+  <section class="card-container">
+    <!-- Food Delivery -->
+    <div class="card" onclick="goToPage('food.html')">
+      <h3>FOOD DELIVERY</h3>
+      <p>FROM RESTAURANTS</p>
+      <span class="offer">UPTO 60% OFF</span>
+      <img src="https://maharajachaap.com/wp-content/uploads/2018/09/masala-chaap.jpg" alt="Food">
+      <button>→</button>
+    </div>
+
+    <!-- Instamart -->
+    <div class="card" onclick="goToPage('insta.html')">
+      <h3>INSTAMART</h3>
+      <p>INSTANT GROCERY</p>
+      <span class="offer">UPTO 60% OFF</span>
+      <img src="https://www.dailyneeds247.com/wp-content/uploads/2022/01/grocery-products-1510312058-3444389.jpeg" alt="Instamart">
+      <button>→</button>
+    </div>
+
+    <!-- Dineout -->
+    <div class="card" onclick="goToPage('dine.html')">
+      <h3>DINEOUT</h3>
+      <p>EAT OUT & SAVE MORE</p>
+      <span class="offer">UPTO 50% OFF</span>
+      <img src="https://dineout-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/DINEOUT_ALL_RESTAURANTS/IMAGES/RESTAURANT_IMAGE_SERVICE/2025/5/16/bce698b4-34c8-43b3-bab0-6da95fa08cf9_8ec8fc027de749ad83bd41b288eef3c76a59f1d42483423ea3651755ea6a160b.JPG" alt="Dineout">
+      <button>→</button>
+    </div>
+  </section></div>
+  <div class="container">
+  <!-- Food Categories Section -->
+  <section class="categories">
+    <h2>Order our best food options</h2>
+    <div class="scroll-wrapper">
+      <button class="arrow left" onclick="scrollLeft('category-list')">‹</button>
+      
+      <div class="category-list" id="category-list">
+        <div class="category-item">
+          <img src="https://bonmasala.com/wp-content/uploads/2022/10/mutton-biriyani-recipe.jpeg" alt="Biryani">
+          <p>Biryani</p>
+        </div>
+        <div class="category-item">
+          <img src="https://ichef.bbc.co.uk/ace/standard/1600/food/recipes/alpine_pizza_32132_16x9.jpg.webp" alt="Pizza">
+          <p>Pizza</p>
+        </div>
+        <div class="category-item">
+          <img src="https://www.foodandwine.com/thmb/XE8ubzwObCIgMw7qJ9CsqUZocNM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/MSG-Smash-Burger-FT-RECIPE0124-d9682401f3554ef683e24311abdf342b.jpg" alt="Burger">
+          <p>Burger</p>
+        </div>
+        <!-- Add more items -->
+        <div class="category-item">
+          <img src="https://imranrestaurant.in/wp-content/uploads/2024/05/Curd-Rice.jpg" alt="Burger">
+          <p>Curd Rice</p>
+        </div>
+        <div class="category-item">
+          <img src="https://www.kannammacooks.com/wp-content/uploads/sambar-sadam-made-with-brown-rice-recipe-1-3.jpg" alt="Burger">
+          <p>Sambar Rice</p>
+        </div>
+        <div class="category-item">
+          <img src="https://www.irisselect.com/wp-content/uploads/2018/03/Fall-Flowers-Wedding-Cake.jpg" alt="Burger">
+          <p>Cake</p>
+        </div><div class="category-item">
+          <img src="https://t3.ftcdn.net/jpg/02/27/95/10/360_F_227951061_9JifVmZbOV8ZPtyD2tphb91QHThBIwoI.jpg" alt="Burger">
+          <p>Parota</p>
+        </div><div class="category-item">
+          <img src="https://takestwoeggs.com/wp-content/uploads/2023/11/Soy-Sauce-Pan-Fried-Noodles-Takestwoeggs-sq.jpg" alt="Burger">
+          <p>Noodles</p>
+        </div><div class="category-item">
+          <img src="https://ichef.bbci.co.uk/food/ic/food_16x9_1600/recipes/cobb_salad_62368_16x9.jpg" alt="Burger">
+          <p>Salad</p>
+        </div><div class="category-item">
+          <img src="https://s.lightorangebean.com/media/20240914160809/Spicy-Penne-Pasta_-done.png" alt="Burger">
+          <p>Pasta</p>
+        </div>
+        <!-- repeat more -->
+      </div>
+      
+      <button class="arrow right" onclick="scrollRight('category-list')">›</button>
+    </div>
+  </section>
+<!-- Grocery Section -->
+<section class="groceries">
+  <h2>Shop groceries on Instamart</h2>
+  <div class="scroll-wrapper">
+    <button class="arrow left" onclick="scrollLeft('grocery-list')">‹</button>
+    <div class="grocery-list" id="grocery-list">
+      <div class="grocery-item">
+        <img src="https://4.imimg.com/data4/AY/TE/IMOB-27708947/c__data_users_defapps_appdata_internetexplorer_temp_sav-500x500.jpg" alt="Fresh Vegetables">
+        <p>Fresh Vegetables</p>
+      </div>
+      <div class="grocery-item">
+        <img src="https://www.qatar-tribune.com/uploads/imported_images/data/20170427/images/22_3_1.jpg" alt="Snacks">
+        <p>Snacks & Beverages</p>
+      </div>
+      <div class="grocery-item">
+        <img src="https://static.toiimg.com/photo/63169757.cms" alt="Cooking Oil">
+        <p>Cooking Oil</p>
+      </div>
+      <div class="grocery-item">
+        <img src="https://www.kisanserv.com/assets_web/img/hero/fruit.png" alt="Cooking Oil">
+        <p>Fresh Fruits</p>
+      </div><div class="grocery-item">
+        <img src="https://www.shutterstock.com/image-photo/glass-bowl-milk-eggs-bread-260nw-361668512.jpg" alt="Cooking Oil">
+        <p>Dairy, Bread and Eggs</p>
+      </div><div class="grocery-item">
+        <img src="https://5.imimg.com/data5/SELLER/Default/2020/9/VR/BF/SF/114527456/dry-fruits-500x500.jpg" alt="Cooking Oil">
+        <p>Masalas and Dry Fruits</p>
+      </div><div class="grocery-item">
+        <img src="https://images.timesnownews.com/thumb/msid-117349636,thumbsize-97758,width-1280,height-720,resizemode-75/117349636.jpg" alt="Cooking Oil">
+        <p>Oils and Ghee</p>
+      </div><div class="grocery-item">
+        <img src="https://bakewithshivesh.com/wp-content/uploads/2020/05/151F814A-2749-4978-BA53-3AD2A962C933-scaled.jpg" alt="Cooking Oil">
+        <p>Sweet Tooth</p>
+      </div><div class="grocery-item">
+        <img src="https://5.imimg.com/data5/SELLER/Default/2023/1/QF/BL/FT/163771626/cold-drinks-supplier.jpg" alt="Cooking Oil">
+        <p>Cold Drinks and Juices</p>
+      </div><div class="grocery-item">
+        <img src="https://media.britannia.co.in/medium_LH_New_Pack_1_62ac87e359.jpg" alt="Cooking Oil">
+        <p>Biscuits and Cakes</p>
+      </div><div class="grocery-item">
+        <img src="https://images.financialexpressdigital.com/2024/04/Shailja-Tiwari-2024-04-05T083242.139.png" alt="Cooking Oil">
+        <p>Instant and Frozen Food</p>
+      </div><div class="grocery-item">
+        <img src="https://www.eqimg.com/images/2022/04252022-von-image6-equitymaster.jpg" alt="Cooking Oil">
+        <p>Tea, Coffee and More</p>
+      </div>
+      <!-- Add more items -->
+    </div>
+    <button class="arrow right" onclick="scrollRight('grocery-list')">›</button>
+  </div>
+</section>
+<!-- Restaurants Section -->
+<section class="restaurants">
+  <h2>Discover best restaurants on Dineout</h2>
+  <div class="scroll-wrapper">
+    <button class="arrow left" onclick="scrollLeft('restaurant-list')">‹</button>
+    <div class="restaurant-list" id="restaurant-list">
+      <div class="restaurant-card">
+        <img src="https://www.itchotels.com/content/dam/itchotels/in/umbrella/itc/hotels/itcmaurya-new-delhi/images/overview-landing-page/dining/hotel-card-listing/avartana.jpg" alt="Restaurant 1">
+        <h3>The Great Indian Kitchen</h3>
+        <p>⭐ 4.5 • North Indian, Chinese</p>
+      </div>
+      <div class="restaurant-card">
+        <img src="https://media-cdn.tripadvisor.com/media/photo-m/1280/15/91/93/9a/its-a-outlooks-of-pizza.jpg" alt="Restaurant 2">
+        <h3>Pizza World</h3>
+        <p>⭐ 4.2 • Italian, Fast Food</p>
+      </div>
+      <div class="restaurant-card">
+        <img src="https://live.staticflickr.com/3761/13777671305_588b802c19_z.jpg" alt="Restaurant 3">
+        <h3>Cafe Mocha</h3>
+        <p>⭐ 4.7 • Coffee, Desserts</p>
+      </div>
+      <div class="restaurant-card">
+        <img src="https://cdn0.weddingwire.in/vendor/6494/3_2/960/jpg/pv-image-5_15_376494-162642479083806.jpeg" alt="Restaurant 3">
+        <h3>Amma veedu</h3>
+        <p>⭐ 4.7 • Veg thali plate</p>
+      </div><div class="restaurant-card">
+        <img src="https://content3.jdmagicbox.com/v2/comp/chennai/p5/044pxx44.xx44.121023165953.q3p5/catalogue/madras-pavilion-itc-grand-chola--guindy-chennai-restaurants-1xquu6t.jpg" alt="Restaurant 3">
+        <h3>Chennai Pavilion</h3>
+        <p>⭐ 4.7 • Coffee, Desserts</p>
+      </div><div class="restaurant-card">
+        <img src="https://b.zmtcdn.com/data/pictures/5/18980805/52820658639857324ae711fd7878892a.jpg" alt="Restaurant 3">
+        <h3>Mahalakshmi</h3>
+        <p>⭐ 5.7 • Sambar ,Vadai</p>
+      </div><div class="restaurant-card">
+        <img src="https://dineout-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/v1703228499/9a5f3d3b1a38d2bf24f86652920d939f.webp" alt="Restaurant 3">
+        <h3>Eternal</h3>
+        <p>⭐ 4.7 • Mutton-biriyani</p>
+      </div><div class="restaurant-card">
+        <img src="https://cdn.tajhotels.com/images/ocl5w36p/prod5/c2ec7e2a23ab91f3a034e14bdbd8d01c52172c25-1400x1120.jpg" alt="Restaurant 3">
+        <h3>Taj</h3>
+        <p>⭐ 4.7 • Biriyani,pasta</p>
+      </div><div class="restaurant-card">
+        <img src="images/rest3.jpg" alt="Restaurant 3">
+        <h3>Cafe Mocha</h3>
+        <p>⭐ 4.7 • Coffee, Desserts</p>
+      </div>
+      <!-- Add more cards -->
+    </div>
+    <button class="arrow right" onclick="scrollRight('restaurant-list')">›</button>
+  </div>
+</section>
+
+
+</div>
+<!-- Cities Section -->
+<section class="cities">
+  <h2>Cities with food delivery</h2>
+  <div class="city-grid" id="food-cities">
+    <a href="#">Order food online in Bangalore</a>
+    <a href="#">Order food online in Gurgaon</a>
+    <a href="#">Order food online in Hyderabad</a>
+    <a href="#">Order food online in Delhi</a>
+    <a href="#">Order food online in Mumbai</a>
+    <a href="#">Order food online in Pune</a>
+    <a href="#">Order food online in Kolkata</a>
+    <a href="#">Order food online in Chennai</a>
+    <a href="#">Order food online in Ahmedabad</a>
+    <a href="#">Order food online in Chandigarh</a>
+    <a href="#">Order food online in Jaipur</a>
+     <a href="#">Order food online in Kolkata</a>
+    <a href="#">Order food online in Chennai</a>
+    <a href="#">Order food online in Ahmedabad</a>
+    <a href="#">Order food online in Chandigarh</a>
+    <a href="#">Order food online in Jaipur</a>
+     <!-- Show more button -->
+  <!-- Correct for Food Cities -->
+<a href="javascript:void(0)" class="show-more" onclick="toggleCities('food-cities', this)">Show More </a>
+
+  </div>
+
+  <h2>Cities with grocery delivery</h2>
+  <div class="city-grid" id="grocery-cities">
+  <a href="#">Order grocery delivery in Bangalore</a>
+  <a href="#">Order grocery delivery in Gurgaon</a>
+  <a href="#">Order grocery delivery in Hyderabad</a>
+  <a href="#">Order grocery delivery in Delhi</a>
+  <a href="#">Order grocery delivery in Mumbai</a>
+  <a href="#">Order grocery delivery in Pune</a>
+  <a href="#">Order grocery delivery in Kolkata</a>
+  <a href="#">Order grocery delivery in Chennai</a>
+  <a href="#">Order grocery delivery in Ahmedabad</a>
+  <a href="#">Order grocery delivery in Chandigarh</a>
+  <a href="#">Order grocery delivery in Jaipur</a>
+  <a href="#">Order grocery delivery in Mumbai</a>
+  <a href="#">Order grocery delivery in Pune</a>
+  <a href="#">Order grocery delivery in Kolkata</a>
+  <a href="#">Order grocery delivery in Chennai</a>
+  <a href="#">Order grocery delivery in Ahmedabad</a>
+  <a href="#">Order grocery delivery in Chandigarh</a>
+  <a href="#">Order grocery delivery in Jaipur</a>
+  <!-- Show more button -->
+  <a href="javascript:void(0)" class="show-more" onclick="toggleCities('grocery-cities', this)">Show More </a>
+</div>
+
+</section>  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div>
+        <ul> <a href="#">
+        <img src="images/logo.png" alt="mockiggy Logo">
+      </a>
+    </ul></div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Mockiggy Food</a></li>
+          <li><a href="#">Mockiggy Instamart</a></li>
+           <li><a href="#">Mockiggy Groceries</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact Us</h4>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Ratings</a></li>
+          <li><a href="#">Track Order</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4>Available in:</h4>
+        <ul>
+          <li><a href="#">Bangalore</a></li>
+          <li><a href="#">Chennai</a></li>
+          <li><a href="#">Guregon</a></li>
+          <li><a href="#">Delhi</a></li>
+          <li><a href="#">Kolkata</a></li>
+          <li><a href="#">Mumbai</a></li>
+       <button>685 cities &#9662;</button>
+
+        </ul>
+      </div>
+    </div>
+    <p>&copy; This is a student demo project and is not affiliated with any commercial brand.
+
+© 2025 Mockiggy Mockup. Created for educational purposes.</p>
+  </footer>
+
+
+<script src="script.js">
+</script>
+</body>
+</html>

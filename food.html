@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Order in Chennai</title>
+<style>  /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f9f9f9;
+      color: #333;
+    }
+    .container {
+  max-width: 1200px;      /* adjust like Swiggy */
+  margin: 0 auto;          /* center container */
+  padding: 0 15px;         /* left/right gap */
+}
+
+
+    /* Header */
+    header {
+      position: fixed;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo img {
+      height: 40px;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+    .location-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.location-icon {
+  color: #ff6b35; /* Swiggy orange */
+  font-size: 18px;
+}
+
+#manualLocation {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 14px;
+  outline: none;
+}
+
+#locateBtn {
+  background: #ff6b35;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+#locateBtn:hover {
+  background: #e65a2a;
+}
+
+    .search-bar{
+      margin-left: auto;
+    }
+
+    .search-bar input {
+      padding: 8px 12px;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      outline: none;
+      left:90%;
+
+    }
+
+    .profile-icon {
+      width: 35px;
+      height: 35px;
+      background: #ccc;
+      border-radius: 50%;
+      display: inline-block;
+      text-align: center;
+      line-height: 35px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+   .hero {
+  position: relative;
+  width: 100%;
+  height: 50vh;
+  overflow: hidden;
+  border-top-left-radius: 50px;   /* curve bottom-left */
+   border-top-right-radius: 50px;  /* curve bottom-right */
+   border-bottom-left-radius: 50px;   /* curve bottom-left */
+   border-bottom-right-radius: 50px;  /* curve bottom-right */
+}
+
+
+.hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* fills container */
+  display: block;
+}
+
+
+
+/* Overlay content */
+.hero-overlay {
+  position: absolute;
+  top: 60px;
+  left: -50px;
+  width: 100%;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+  align-items: left;
+  color: #fff;
+  text-align: right;
+}
+    .hero-overlay img {
+  position: absolute;
+  top: 80px;
+  left: 700px;
+  width: 10%;
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  text-align: center;
+}
+
+.hero-overlay h1 {
+  font-size: 68px;
+  font-weight: bold;
+  margin:0;
+}
+.categories-wrapper h1 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 15px;    /* space below heading */
+  padding-left: 10px;     /* align with categories */
+}
+
+.categories-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex-direction: column;  /* stack heading above categories */
+  margin: 20px 0;
+}
+
+.categories {
+  display: flex;
+  gap: 25px;
+  padding: 10px 0;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  flex-wrap: nowrap;
+  width: 100%;
+}
+
+
+.categories::-webkit-scrollbar {
+  display: none;
+}
+
+.category-item {
+  flex: 0 0 auto;          /* prevents shrinking in scroll */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+.category-item img {
+  width: 60px;
+  height: 50px;
+  border-radius: 50%;
+  margin-bottom: 8px;
+  object-fit: cover;
+}
+
+.category-item:hover {
+  transform: scale(1.1);
+}
+
+.arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(255,255,255,0.9);
+  border: none;
+  font-size: 30px;
+  cursor: pointer;
+  padding: 10px;
+  border-radius: 50%;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+  z-index: 2;
+}
+
+.arrow.left {
+  left: -10px;
+}
+
+.arrow.right {
+  right: -10px;
+}
+.section-divider {
+  border: none;              /* remove default border */
+  height: 2px;               /* thickness of line */
+  background-color: #ccc;    /* line color */
+  margin: 20px 0;            /* space above and below */
+}
+.top-restaurants {
+  margin: 40px 0;
+}
+
+.top-restaurants h2 {
+  font-size: 24px;
+  margin-bottom: 15px;
+  padding-left: 15px;
+}
+
+.restaurants-wrapper {
+  position: relative;
+}
+
+.restaurants {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  padding: 10px 15px;
+}
+
+.restaurants::-webkit-scrollbar {
+  display: none;
+}
+
+.restaurant-card {
+  flex: 0 0 auto;
+  width: 200px;
+  background: #fff;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  position: relative;
+}
+
+.restaurant-card img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+}
+
+.discount {
+  position: absolute;
+  top:90px;
+    left: 10px;
+  background: #ff6b35;
+  color: #fff;
+  padding: 1px 1px;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.restaurant-card h3 {
+  font-size: 16px;
+  margin: 8px 10px 2px;
+}
+
+.restaurant-card p {
+  font-size: 13px;
+  color: #555;
+  margin: 0 10px 4px;
+}
+
+.restaurant-card .rating {
+  margin-bottom: 10px;
+}
+.restaurants-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); 
+  gap: 20px;
+  padding: 10px 15px;
+}
+
+.featured-restaurants .restaurant-card {
+  width: 100%;  /* full width inside grid */
+}
+
+.featured-restaurants .restaurant-card img {
+  height: 160px;
+}
+
+.featured-restaurants .discount {
+  top: 130px;
+  left: 10px;
+  font-size: 13px;
+  padding: 2px 6px;
+}
+.filter-bar {
+  display: flex;
+  flex-wrap: wrap;       /* moves to next line on small screens */
+  gap: 10px;
+  margin: 15px 0;
+}
+
+.filter-bar button {
+  border: 1px solid #ddd;
+  background: #fff;
+  border-radius: 25px;
+  padding: 6px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.filter-bar button:hover {
+  background: #f5f5f5;
+}
+
+.cities {
+  max-width: 1200px;
+  margin: 40px auto;
+  padding: 0 20px;
+  font-family: Arial, sans-serif;
+}
+
+.cities h2 {
+  margin: 20px 0 15px;
+  font-size: 20px;
+}
+
+.city-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 12px;
+  margin-bottom: 30px;
+}
+
+.city-grid a {
+  display: block;
+  padding: 10px 15px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  text-decoration: none;
+  color: #333;
+  font-size: 14px;
+  transition: background 0.2s;
+}
+
+.city-grid a:hover {
+  background: #f9f9f9;
+}
+/* Hide all links after the 6th, except the show-more button */
+#food-cities a:not(.show-more):nth-of-type(n+7),
+#cuisine a:not(.show-more):nth-of-type(n+7) {
+  display: none;
+}
+
+/* When expanded, show all items */
+#food-cities.expanded a,
+#cuisine.expanded a {
+  display: block;
+}
+
+/* Keep the show-more button always visible */
+#food-cities .show-more,
+#cuisine.show-more {
+  display: block !important;
+  color: red;
+  font-weight: bold;
+  border: none;
+  text-align: center;
+  cursor: pointer;
+    border: 1px solid #ddd;
+}
+
+/* Footer */
+footer {
+  background:  #e65a2a;
+  padding: 30px 20px;
+  margin-top: 30px;
+  color: #333;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.footer-content h4 {
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.footer-content ul {
+  list-style: none;
+}
+
+.footer-content ul li {
+  margin: 5px 0;
+}
+
+.footer-content ul li a {
+  text-decoration: none;
+  color: white;
+}
+
+footer p {
+  text-align: center;
+  font-size: 0.9rem;
+  color: white;
+}
+
+
+</style>
+</head>
+
+  <body>
+    <div class="container">
+  <!-- DEMO banner (top) -->
+  <div style="position:fixed;top:15px;left:50%;
+            transform:translateX(-50%);
+            z-index:9999;
+            background:#ffeb3b;color:#000;
+            padding:6px 12px;border-radius:6px;
+            font-weight:700;font-family:Arial;">
+  DEMO — For educational use only
+</div>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <img src="images/mlogo.jpg" alt="Logo">
+      Mockiggy |
+    </div>
+    <!-- Location bar -->
+<div class="location-bar">
+  <span class="location-icon">📍</span>
+  
+  <!-- Manual input -->
+  <input 
+    type="text" 
+    id="manualLocation" 
+    placeholder="Enter your location" 
+  />
+
+  <!-- GPS button -->
+  <button id="locateBtn">Locate Me</button>
+</div>
+
+
+    <div class="search-bar">
+      <input type="text" placeholder="Search for restaurant and food">
+    </div>
+    <div class="profile-icon">M</div>
+  </header>
+
+  <!-- Hero Section -->
+<section class="hero">
+  <img src="https://img.freepik.com/premium-photo/bowl-food-with-smokey-background_111797-1596.jpg" alt="Logo">
+  
+  <!-- Overlay content -->
+  <div class="hero-overlay">
+       <img src="images/mlogo.jpg" alt="Mockiggy Logo" class="hero-logo">
+       <h1>Order Food Online </h1>
+       <h1>In Chennai</h1>
+  </div>
+</section>
+
+<section class="categories-wrapper">
+  <h1>What's craving now?</h1>
+  <button class="arrow left">‹</button>
+
+  <div class="categories">
+    <div class="category-item">
+      <img src="https://www.gohomely.com/assets/img/web/new_home_hero_img.png" alt="Homely Food">
+      <span>Homely Food</span>
+    </div>
+    <div class="category-item">
+      <img src="https://www.priyom.in/wp-content/uploads/2022/06/Chicken-Biriyani-500x500.png" alt="Biryani">
+      <span>Biryani</span>
+    </div>
+    <div class="category-item">
+      <img src="https://www.recipetineats.com/uploads/2017/09/Spring-Rolls-6.jpg" alt="South Indian">
+      <span>Rolls</span>
+    </div>
+    <div class="category-item">
+      <img src="https://content.jdmagicbox.com/v2/comp/mumbai/08/022poce1408/catalogue/chinese-point-restaurant-bhayandar-west-mumbai-chinese-restaurants-kahy4kadql.jpg" alt="South Indian">
+      <span>Chinese</span>
+    </div>
+    <div class="category-item">
+      <img src="https://www.indianhealthyrecipes.com/wp-content/uploads/2015/10/pizza-recipe-1.jpg" alt="South Indian">
+      <span>Pizzas</span>
+    </div>
+    <div class="category-item">
+      <img src="https://cakengifts.wordpress.com/wp-content/uploads/2018/05/chcolates-cakess.jpg" alt="South Indian">
+      <span>Cakes</span>
+    </div>
+    <div class="category-item">
+      <img src="https://assets.epicurious.com/photos/5c745a108918ee7ab68daf79/1:1/w_2503,h_2503,c_limit/Smashburger-recipe-120219.jpg" alt="South Indian">
+      <span>Burgers</span>
+    </div>
+    <div class="category-item">
+      <img src="https://5.imimg.com/data5/SELLER/Default/2021/5/VS/JZ/BV/129280407/milk-shake.jpg" alt="South Indian">
+      <span>Shakes</span>
+    </div>
+    <div class="category-item">
+      <img src="https://t3.ftcdn.net/jpg/02/27/95/10/360_F_227951061_9JifVmZbOV8ZPtyD2tphb91QHThBIwoI.jpg" alt="South Indian">
+      <span>Parota</span>
+    </div>
+    <div class="category-item">
+      <img src="https://www.healthyseasonalrecipes.com/wp-content/uploads/2022/06/healthy-cobb-salad-steps-sq-026.jpg" alt="South Indian">
+      <span>Salad</span>
+    </div>
+
+    <div class="category-item">
+      <img src="https://www.mygingergarlickitchen.com/wp-content/uploads/2024/02/veg-momos-recipe-5.jpg" alt="South Indian">
+      <span>Momos</span>
+    </div><div class="category-item">
+      <img src="https://s.lightorangebean.com/media/20240914160809/Spicy-Penne-Pasta_-done.png" alt="South Indian">
+      <span>Pasta</span>
+    </div>
+    <div class="category-item">
+      <img src="https://funcakes.com/content/uploads/2023/06/Ice-cream-recipe-600x450.webp" alt="South Indian">
+      <span>Ice Cream</span>
+    </div><div class="category-item">
+      <img src="https://boroughmarket.org.uk/wp-content/uploads/2024/06/Kabab-torsh-with-salad-Shirazi-charred-onion-yogurt-1-1024x683.jpg" alt="South Indian">
+      <span>Kababs</span>
+    </div><div class="category-item">
+      <img src="https://justbakedcake.com/wp-content/uploads/2020/09/Chocochip-pastry.jpg" alt="South Indian">
+      <span>Pastry</span>
+    </div>
+    <!-- add remaining items here -->
+  </div>
+
+  <button class="arrow right">›</button>
+</section>
+<hr class="section-divider">
+<section class="top-restaurants">
+  <h2>Best restaurant chains in Chennai</h2>
+
+  <div class="restaurants-wrapper">
+    <button class="arrow left">‹</button>
+
+    <div class="restaurants">
+      <!-- Card 1 -->
+      <div class="restaurant-card">
+        <img src="https://img77.uenicdn.com/image/upload/v1636471226/business/bf1a11c6-e360-4771-8fd5-c6d861956880.jpg" alt="Theobroma">
+        <span class="discount">25% OFF</span>
+        <h3>Theobroma</h3>
+        <p>Bakery, Desserts</p>
+        <p>Anna Nagar</p>
+        <p class="rating">⭐ 4.6 • 35-40 mins</p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="restaurant-card">
+        <img src="https://barbequeen.com/public/images/blogs/blog-chicken-briyani.jpg" alt="BOX8">
+        <span class="discount">ITEMS AT ₹109</span>
+        <h3>BOX – Desi Meals</h3>
+        <p>Biryani, Thalis, Home Food</p>
+        <p>Nungambakkam</p>
+        <p class="rating">⭐ 4.6 • 20-30 mins</p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="restaurant-card">
+        <img src="https://content.jdmagicbox.com/v2/comp/mumbai/j4/022pxx22.xx22.220310100619.q2j4/catalogue/nh1-bowls-highway-to-north-goregaon-east-mumbai-restaurants-faj6d0y27w.jpg" alt="NH1">
+        <span class="discount">ITEMS AT ₹99</span>
+        <h3>NH Bowls – Highway To North</h3>
+        <p>Punjabi, Home Food</p>
+        <p>Nungambakkam</p>
+        <p class="rating">⭐ 4.6 • 20-30 mins</p>
+      </div>
+
+      <!-- Card 4 -->
+      <div class="restaurant-card">
+        <img src="https://www.thespruceeats.com/thmb/UnVh_-znw7ikMUciZIx5sNqBtTU=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/steamed-momos-wontons-1957616-hero-01-1c59e22bad0347daa8f0dfe12894bc3c.jpg" alt="Baskin">
+        <span class="discount">30% OFF UPTO ₹75</span>
+        <h3>sPICY Momos</h3>
+        <p>Momos,spice chutney</p>
+        <p>Anna Nagar</p>
+        <p class="rating">⭐ 4.5 • 25-30 mins</p>
+      </div>
+<div class="restaurant-card">
+        <img src="https://instamart-media-assets.swiggy.com/swiggy/image/upload/fl_lossy,f_auto,q_auto/NI_CATALOG/IMAGES/CIW/2025/5/30/e4a27ecb-3a87-4b3c-902f-c50c5dff1a0e_3575.png" alt="Baskin">
+        <span class="discount">30% OFF UPTO ₹75</span>
+        <h3>Maskin Robbins – Ice Cream Desserts</h3>
+        <p>Desserts, Ice Cream</p>
+        <p>Anna Nagar</p>
+        <p class="rating">⭐ 4.5 • 25-30 mins</p>
+      </div>
+<div class="restaurant-card">
+        <img src="https://cdn4.singleinterface.com/files/banner_images/34404/952_1624955497_wednesdaybucketmin.jpg" alt="Baskin">
+        <span class="discount">30% OFF UPTO ₹75</span>
+        <h3>MOCK KFC</h3>
+        <p>Chicken</p>
+        <p>Anna Nagar</p>
+        <p class="rating">⭐ 4.5 • 25-30 mins</p>
+      </div>
+<div class="restaurant-card">
+        <img src="https://c.ndtvimg.com/2020-12/gsb6apq_biryani_625x300_23_December_20.jpg" alt="Baskin">
+        <span class="discount">30% OFF UPTO ₹75</span>
+        <h3>Dum Biriyani</h3>
+        <p>Biriyani,raita</p>
+        <p>Anna Nagar</p>
+        <p class="rating">⭐ 4.5 • 25-30 mins</p>
+      </div>
+<div class="restaurant-card">
+        <img src="https://miro.medium.com/1*nfbDiVFxBQGys61H7X7B1A.jpeg" alt="Baskin">
+        <span class="discount">30% OFF UPTO ₹75</span>
+        <h3>Idly,Vada Sambar</h3>
+        <p>South Style</p>
+        <p>Anna Nagar</p>
+        <p class="rating">⭐ 4.5 • 25-30 mins</p>
+      </div>
+<div class="restaurant-card">
+        <img src="https://m.media-amazon.com/images/I/71QvVwabsJL.jpg" alt="Baskin">
+        <span class="discount">30% OFF UPTO ₹75</span>
+        <h3>Mixture Snacks</h3>
+        <p>Muruku,Adirsam</p>
+        <p>Anna Nagar</p>
+        <p class="rating">⭐ 4.5 • 25-30 mins</p>
+      </div>
+
+      <!-- Add more cards as needed -->
+    </div>
+
+    <button class="arrow right">›</button>
+  </div>
+</section>
+<hr class="section-divider">
+
+<section class="featured-restaurants">
+  <h2>Restaurants with online food delivery in Chennai</h2>
+<div class="filter-bar">
+  <button>Filter ⚙️</button>
+  <button>Sort By ⬇️</button>
+  <button>Fast Delivery</button>
+  <button>New on Swiggy</button>
+  <button>Ratings 4.0+</button>
+  <button>Pure Veg</button>
+  <button>Offers</button>
+  <button>Rs. 300–Rs. 600</button>
+  <button>Less than Rs. 300</button>
+</div>
+
+  <div class="restaurants-grid">
+    <!-- Card 1 -->
+    <div class="restaurant-card">
+      <img src="https://www.allrecipes.com/thmb/myex8vzNqDze-7IaUoeFRF-PhIg=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/AR-PizzaHut-Getty-V1-4x3-dacfeeb79aed4f208b8b252ea35cddf1.jpg" alt="Pizza Hut">
+      <span class="discount">ITEMS AT ₹98</span>
+      <h3>Pizza Hut</h3>
+      <p>Pizzas</p>
+      <p>Anna Salai</p>
+      <p class="rating">⭐ 4.3 • 30-40 mins</p>
+    </div>
+
+    <!-- Card 2 -->
+    <div class="restaurant-card">
+      <img src="https://b.zmtcdn.com/data/reviews_photos/94e/de0dab8e9b1ebb9bae01d28b91d8f94e_1635413984.jpg" alt="Big Bowl">
+      <span class="discount">ITEMS AT ₹129</span>
+      <h3>Big Bowl</h3>
+      <p>Chinese, Tibetan, Desserts</p>
+      <p>Perambur</p>
+      <p class="rating">⭐ 4.3 • 50-60 mins</p>
+    </div>
+
+    <!-- Card 3 -->
+    <div class="restaurant-card">
+      <img src="https://res.cloudinary.com/tf-lab/image/upload/restaurant/2d4df81d-8dc6-47e6-b1be-8dee8b849340/d0694c7a-bbc3-4f84-9c13-e68d418b323e.jpg" alt="Olio Pizzeria">
+      <span class="discount">ITEMS AT ₹119</span>
+      <h3>Olio – The Wood Fired Pizzeria</h3>
+      <p>Pizzas, Pastas, Italian, Desserts</p>
+      <p>Anna Nagar</p>
+      <p class="rating">⭐ 4.3 • 60-70 mins</p>
+    </div>
+
+    <!-- Card 4 -->
+    <div class="restaurant-card">
+      <img src="https://theartisticcook.com/wp-content/uploads/2023/06/kfc-1.jpg" alt="KFC">
+      <span class="discount">ITEMS AT ₹69</span>
+      <h3>KFC</h3>
+      <p>Burgers, Fast Food, Rolls & Wraps</p>
+      <p>Periyampet</p>
+      <p class="rating">⭐ 4.3 • 25-30 mins</p>
+    </div>
+    <div class="restaurant-card">
+      <img src="https://imgmediagumlet.lbb.in/media/2019/11/5ddbabcdf0d20a07446683df_1574677453413.jpg" alt="KFC">
+      <span class="discount">ITEMS AT ₹69</span>
+      <h3>Chat Corner</h3>
+      <p>Pani puri,sev,.....</p>
+      <p>Periyampet</p>
+      <p class="rating">⭐ 4.3 • 25-30 mins</p>
+    </div>
+    <div class="restaurant-card">
+      <img src="https://media-cdn.tripadvisor.com/media/photo-m/1280/2c/c3/af/1e/caption.jpg" alt="KFC">
+      <span class="discount">ITEMS AT ₹69</span>
+      <h3>New andhra meals</h3>
+      <p>Meals,vada ,chutney</p>
+      <p>Periyampet</p>
+      <p class="rating">⭐ 4.3 • 25-30 mins</p>
+    </div>
+    <div class="restaurant-card">
+      <img src="https://theartisticcook.com/wp-content/uploads/2023/10/amburbir.jpg" alt="KFC">
+      <span class="discount">ITEMS AT ₹69</span>
+      <h3>Ambur biryani</h3>
+      <p>Biriyani,raita</p>
+      <p>Saidapet</p>
+      <p class="rating">⭐ 4.3 • 25-30 mins</p>
+    </div>
+    <div class="restaurant-card">
+      <img src="https://static.toiimg.com/thumb/msid-66476205,width-1280,height-720,imgsize-1460248,resizemode-6,overlay-toi_sw,pt-32,y_pad-40/photo.jpg" alt="KFC">
+      <span class="discount">ITEMS AT ₹69</span>
+      <h3>Sweets</h3>
+      <p>Kaju katli,rasgulla</p>
+      <p>Periyampet</p>
+      <p class="rating">⭐ 4.3 • 25-30 mins</p>
+    </div>
+    <div class="restaurant-card">
+      <img src="https://delishglobe.com/wp-content/uploads/2024/09/Masala-dosa-1.png" alt="KFC">
+      <span class="discount">ITEMS AT ₹69</span>
+      <h3>DOsa</h3>
+      <p>Dosa chutney vada</p>
+      <p>Periyampet</p>
+      <p class="rating">⭐ 4.3 • 25-30 mins</p>
+    </div>
+    <div class="restaurant-card">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Laddu_Sweet.JPG/250px-Laddu_Sweet.JPG" alt="KFC">
+      <span class="discount">ITEMS AT ₹69</span>
+      <h3>Ladoo</h3>
+      <p>moti chur,gulab jamun</p>
+      <p>Periyampet</p>
+      <p class="rating">⭐ 4.3 • 25-30 mins</p>
+    </div>
+    <div class="restaurant-card">
+      <img src="https://content.jdmagicbox.com/comp/def_content_category/chinese-restaurants/chinese-7--chinese-restaurants-1-p4idy-250.jpg" alt="KFC">
+      <span class="discount">ITEMS AT ₹69</span>
+      <h3>Momos spice</h3>
+      <p>Momos, Rolls & Wraps</p>
+      <p>Periyampet</p>
+      <p class="rating">⭐ 4.3 • 25-30 mins</p>
+    </div>
+    <div class="restaurant-card">
+      <img src="https://www.shutterstock.com/image-photo/seafood-on-ice-buffet-line-260nw-396992461.jpg" alt="KFC">
+      <span class="discount">ITEMS AT ₹69</span>
+      <h3>Sea food </h3>
+      <p>Fish,Prawn.....</p>
+      <p>Periyampet</p>
+      <p class="rating">⭐ 4.3 • 25-30 mins</p>
+    </div>
+    <div class="restaurant-card">
+      <img src="https://content3.jdmagicbox.com/comp/def_content/chinese_restaurants/default-chinese-restaurants-10.jpg" alt="KFC">
+      <span class="discount">ITEMS AT ₹69</span>
+      <h3>Italian food</h3>
+      <p>noodles,pasta ,Rolls & Wraps</p>
+      <p>Periyampet</p>
+      <p class="rating">⭐ 4.3 • 25-30 mins</p>
+    </div>
+    <div class="restaurant-card">
+      <img src="https://i.pinimg.com/736x/38/f5/d9/38f5d9f30b421d2098b5c63bc6f8238d.jpg" alt="KFC">
+      <span class="discount">ITEMS AT ₹69</span>
+      <h3>ice creame sandwich</h3>
+      <p>Ice creame,caremel.........</p>
+      <p>Periyampet</p>
+      <p class="rating">⭐ 4.3 • 25-30 mins</p>
+    </div>
+    <div class="restaurant-card">
+      <img src="https://b.zmtcdn.com/data/pictures/9/19874249/e387d2cee8990114cf8b6b39984ac294.jpg" alt="KFC">
+      <span class="discount">ITEMS AT ₹69</span>
+      <h3>Fruits world</h3>
+      <p>Juices,shakes........</p>
+      <p>Periyampet</p>
+      <p class="rating">⭐ 4.3 • 25-30 mins</p>
+    </div>
+    <div class="restaurant-card">
+      <img src="https://www.thestatesman.com/wp-content/uploads/2022/02/istockphoto-1.jpg" alt="KFC">
+      <span class="discount">ITEMS AT ₹69</span>
+      <h3>Punjab Food</h3>
+      <p>Roti,Naan ,chicken........</p>
+      <p>Periyampet</p>
+      <p class="rating">⭐ 4.3 • 25-30 mins</p>
+    </div>
+    
+  </div>
+</section>
+<section class="cities">
+  <h2>Best Places to eat across namma India</h2>
+  <div class="city-grid" id="food-cities">
+    <a href="#">Top Restaurants in  Bangalore</a>
+    <a href="#">Top Restaurants in Gurgaon</a>
+    <a href="#">Top Restaurants in Hyderabad</a>
+    <a href="#">Top Restaurants in Delhi</a>
+    <a href="#">Top Restaurants in Mumbai</a>
+    <a href="#">Top Restaurants in Pune</a>
+    <a href="#">Top Restaurants in Kolkata</a>
+    <a href="#">Top Restaurants in Chennai</a>
+    <a href="#">Top Restaurants in Ahmedabad</a>
+    
+     <!-- Show more button -->
+  <!-- Correct for Food Cities -->
+<a href="javascript:void(0)" class="show-more" onclick="toggleCities('food-cities', this)">Show More </a>
+
+  </div>
+
+  <h2>Best Cuisines</h2>
+  <div class="city-grid" id="cuisine">
+  <a href="#">Chinese Restaurant Near Me</a>
+  <a href="#">South Indian Restaurant Near Me</a>
+  <a href="#">Indian Restaurant Near Me</a>
+  <a href="#">Kerala Restaurant Near Me</a>
+  <a href="#">Korean Restaurant Near Me</a>
+  <a href="#">Bengali Restaurant Near Me</a>
+  <a href="#">Seafood Restaurant Near Me</a>
+  <a href="#">Andhra Restaurant Near Me</a>
+  <a href="#">Italian Restaurant Near Me</a>
+  <a href="#">Punjabi Restaurant Near Me</a>
+ 
+  
+  <!-- Show more button -->
+  <a href="javascript:void(0)" class="show-more" onclick="toggleCities('cuisine', this)">Show More </a>
+</div>
+
+</section>  <!-- Footer -->
+  <footer>
+    <div class="footer-content">
+      <div>
+        <ul> <a href="#">
+        <img src="images/logo.png" alt="mockiggy Logo">
+      </a>
+    </ul></div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Mockiggy Food</a></li>
+          <li><a href="#">Mockiggy Instamart</a></li>
+           <li><a href="#">Mockiggy Groceries</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact Us</h4>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Ratings</a></li>
+          <li><a href="#">Track Order</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4>Available in:</h4>
+        <ul>
+          <li><a href="#">Bangalore</a></li>
+          <li><a href="#">Chennai</a></li>
+          <li><a href="#">Guregon</a></li>
+          <li><a href="#">Delhi</a></li>
+          <li><a href="#">Kolkata</a></li>
+          <li><a href="#">Mumbai</a></li>
+       <button>685 cities &#9662;</button>
+
+        </ul>
+      </div>
+    </div>
+    <p>&copy; This is a student demo project and is not affiliated with any commercial brand.
+
+© 2025 Mockiggy Mockup. Created for educational purposes.</p>
+  </footer>
+
+
+
+<script>// Function to add scrolling functionality for a wrapper
+function setupScroll(wrapperSelector, contentSelector) {
+  const wrapper = document.querySelector(wrapperSelector);
+  const content = wrapper.querySelector(contentSelector);
+  const leftArrow = wrapper.querySelector('.arrow.left');
+  const rightArrow = wrapper.querySelector('.arrow.right');
+  const scrollAmount = 300; // adjust as needed
+
+  leftArrow.addEventListener('click', () => {
+    content.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+  });
+
+  rightArrow.addEventListener('click', () => {
+    content.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+  });
+}
+
+// Apply to categories
+setupScroll('.categories-wrapper', '.categories');
+
+// Apply to restaurants
+setupScroll('.restaurants-wrapper', '.restaurants');
+
+
+  // GPS option
+const manualInput = document.getElementById('manualLocation');
+const locateBtn = document.getElementById('locateBtn');
+
+// GPS option
+locateBtn.addEventListener('click', () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`)
+          .then(res => res.json())
+          .then(data => {
+            const address = data.display_name || `${lat.toFixed(5)}, ${lon.toFixed(5)}`;
+            manualInput.value = address; // fill input box with detected location
+          })
+          .catch(() => {
+            manualInput.value = `${lat.toFixed(5)}, ${lon.toFixed(5)}`;
+          });
+      },
+      () => {
+        manualInput.value = "Location access denied";
+      },
+      { enableHighAccuracy: true }
+    );
+  } else {
+    manualInput.value = "Geolocation not supported";
+  }
+});
+
+// Manual typing option
+manualInput.addEventListener('input', () => {
+  console.log("User entered:", manualInput.value);
+  // 👉 You can send this to backend for search suggestions
+});
+function toggleCities(id, btn) {
+  const grid = document.getElementById(id);
+  grid.classList.toggle("expanded");
+
+  // toggle button text
+  if (grid.classList.contains("expanded")) {
+    btn.innerText = "Show Less ⌃";
+  } else {
+    btn.innerText = "Show More ⌄";
+  }
+}
+
+</script>
+</div>
+</body>
+</html>

@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Order in Chennai</title>
+<style>  /* General Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      background: #f9f9f9;
+      color: #333;
+    }
+    .container {
+  max-width: 1200px;      /* adjust like Swiggy */
+  margin: 0 auto;          /* center container */
+  padding: 0 15px;         /* left/right gap */
+}
+
+
+    /* Header */
+    header {
+      position: fixed;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 15px 30px;
+      background: #fff;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo img {
+      height: 40px;
+      margin-right: 10px;
+      vertical-align: middle;
+    }
+    .location-bar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  background: #fff;
+  padding: 10px 15px;
+  border-bottom: 1px solid #eee;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.location-icon {
+  color: #ff6b35; /* Swiggy orange */
+  font-size: 18px;
+}
+
+#manualLocation {
+  flex: 1;
+  padding: 6px 10px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  font-size: 14px;
+  outline: none;
+}
+
+#locateBtn {
+  background: #ff6b35;
+  color: #fff;
+  border: none;
+  border-radius: 20px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+#locateBtn:hover {
+  background: #e65a2a;
+}
+
+    .search-bar{
+      margin-left: auto;
+    }
+
+    .search-bar input {
+      padding: 8px 12px;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 20px;
+      outline: none;
+      left:90%;
+
+    }
+
+    .profile-icon {
+      width: 35px;
+      height: 35px;
+      background: #ccc;
+      border-radius: 50%;
+      display: inline-block;
+      text-align: center;
+      line-height: 35px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    /* Hero Section */
+   .hero {
+  position: relative;
+  width: 100%;
+  height: 50vh;
+  overflow: hidden;
+  border-top-left-radius: 50px;   /* curve bottom-left */
+   border-top-right-radius: 50px;  /* curve bottom-right */
+   border-bottom-left-radius: 50px;   /* curve bottom-left */
+   border-bottom-right-radius: 50px;  /* curve bottom-right */
+}
+
+
+.hero img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;   /* fills container */
+  display: block;
+    animation: slide 4s ease-in-out infinite;
+}
+
+@keyframes slide {
+  0% { transform: scale(2.1) translateX(0); }
+  50% { transform: scale(0.9) translateX(-10px); }
+  100% { transform: scale(1.0) translateX(0); }
+}
+
+
+
+
+/* Overlay content */
+.hero-overlay {
+  position: absolute;
+  top: 90px;
+  left: -1px;
+  width: 100%;
+  height: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: right;
+  align-items: left;
+  color:whitesmoke;
+  text-align: right;
+}
+    .hero-overlay img {
+  position: absolute;
+  top: -80px;
+  left: 50px;
+  width: 5%;
+  height: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  text-align: center;
+}
+
+
+.hero-overlay h1 {
+   top: 10%;       /* move vertically */
+  left: 5%;      /* move horizontally */
+
+  font-size: 35px;
+  font-weight: bold;
+  margin: 5px;
+}
+
+    /* Top bar */
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+}
+
+.top-bar .search-box input {
+  padding: 8px 12px;
+  border: 1px solid #ddd;
+  border-radius: 25px;
+  width: 300px;
+}
+
+/* Banner */
+.banner img {
+  width: 100%;
+  margin: 15px 0;
+  border-radius: 10px;
+}
+
+/* Categories Row */
+.categories {
+  display: flex;
+  gap: 15px;
+  overflow-x: auto;
+  padding: 10px;
+}
+
+.category {
+  flex: 0 0 auto;
+  text-align: center;
+  background: #0066ff;
+  color: #fff;
+  border-radius: 10px;
+  padding: 10px;
+  width: 120px;
+}
+
+.category img {
+  width: 60px;
+  height: 60px;
+  border-radius: 8px;
+  background: #fff;
+  margin-bottom: 5px;
+}
+
+.category .offer {
+  font-size: 12px;
+  background: #ffcc00;
+  color: #000;
+  border-radius: 5px;
+  padding: 2px 5px;
+  display: inline-block;
+  margin-top: 5px;
+}
+
+/* Products */
+.products {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin-top: 20px;
+}
+
+.product-card {
+  width: 180px;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  position: relative;
+}
+@keyframes zoom {
+  0% { transform: scale(1.3); }
+  50% { transform: scale(1.05); }
+  100% { transform: scale(1.2); }
+}
+.product-card img {
+  width: 150px;
+  height: 100px;
+  margin-bottom: 10px;  animation: zoom 6s ease-in-out infinite;
+}
+
+.product-card .discount {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: green;
+  color: white;
+  padding: 2px 5px;
+  font-size: 12px;
+  border-radius: 4px;
+}
+
+.product-card button {
+  border: none;
+  background: #ff6600;
+  color: white;
+  font-size: 18px;
+  border-radius: 50%;
+  width: 35px;
+  height: 35px;
+  cursor: pointer;
+}
+/* Footer */
+footer {
+  background:  #e65a2a;
+  padding: 30px 20px;
+  margin-top: 30px;
+  color: #333;
+}
+
+.footer-content {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-bottom: 20px;
+}
+
+.footer-content h4 {
+  margin-bottom: 10px;
+  font-size: 1.1rem;
+}
+
+.footer-content ul {
+  list-style: none;
+}
+
+.footer-content ul li {
+  margin: 5px 0;
+}
+
+.footer-content ul li a {
+  text-decoration: none;
+  color: white;
+}
+
+footer p {
+  text-align: center;
+  font-size: 0.9rem;
+  color: white;
+}
+
+
+</style>
+</head>
+
+  <body>
+    <div class="container">
+  <!-- DEMO banner (top) -->
+  <div style="position:fixed;top:15px;left:50%;
+            transform:translateX(-50%);
+            z-index:9999;
+            background:#ffeb3b;color:#000;
+            padding:6px 12px;border-radius:6px;
+            font-weight:700;font-family:Arial;">
+  DEMO — For educational use only
+</div>
+
+  <!-- Header -->
+  <header>
+    <div class="logo">
+      <img src="images/mlogo.jpg" alt="Logo">
+      Mockiggy |
+    </div>
+    <!-- Location bar -->
+<div class="location-bar">
+  <span class="location-icon">📍</span>
+  
+  <!-- Manual input -->
+  <input 
+    type="text" 
+    id="manualLocation" 
+    placeholder="Enter your location" 
+  />
+
+  <!-- GPS button -->
+  <button id="locateBtn">Locate Me</button>
+</div>
+
+
+    <div class="search-bar">
+      <input type="text" placeholder="Search for restaurant and food">
+    </div>
+    <div class="profile-icon">M</div>
+  </header>
+
+  <!-- Hero Section -->
+<section class="hero">
+  <img src="https://img.freepik.com/premium-photo/image-cart-full-products-supermarket_967785-2010.jpg" alt="Logo">
+  
+  <!-- Overlay content -->
+  <div class="hero-overlay">
+       <img src="images/mlogo.jpg" alt="Mockiggy Logo" class="hero-logo">
+       <h1>Get Groceries & more </h1>
+       <h1>In 10 minutes</h1>
+  </div>
+</section>
+<br>
+<!-- Categories Row -->
+  <P><b> Hot deals</b></P>
+<section class="categories">
+
+  <div class="category">
+    <img src="https://content.jdmagicbox.com/comp/def_content/vegetable-vendors/5bib6gpqm8-vegetable-vendors-6-22mrm.jpg" alt="Fresh">
+    <p>Fresh Corner</p>
+    <span class="offer">UP TO 45% OFF</span>
+  </div>
+  <div class="category">
+    <img src="https://www.dailyneeds247.com/wp-content/uploads/2022/01/grocery-products-1510312058-3444389.jpeg" alt="Groceries">
+    <p>Monthly Groceries</p>
+    <span class="offer">UP TO 70% OFF</span>
+  </div>
+  <div class="category">
+    <img src="https://www.hyderabadonlineflorists.com/images/CSCSUUN450_big.webp" alt="Baby Care">
+    <p>Baby Care</p>
+    <span class="offer">UP TO 90% OFF</span>
+  </div>
+  <div class="category">
+    <img src="https://images.indianexpress.com/2019/09/toys.jpg" alt="Toys">
+    <p>Toys & More</p>
+    <span class="offer">FLAT 90% OFF</span>
+  </div>
+  <div class="category">
+    <img src="https://5.imimg.com/data5/SELLER/Default/2024/12/470069625/EK/TF/HM/224078753/beauty-cosmetic-products.jpeg" alt="Toys">
+    <p>Cosmetics & More</p>
+    <span class="offer">FLAT 90% OFF</span>
+  </div>
+  <div class="category">
+    <img src="https://www.rd.com/wp-content/uploads/2023/02/How-to-Clean-a-Toilet-RDD23_CleaningHub_KS_03_10_026-FT.jpg" alt="Toys">
+    <p>Home daily use & More</p>
+    <span class="offer">FLAT 90% OFF</span>
+  </div>
+  <div class="category">
+    <img src="https://images.jdmagicbox.com/quickquotes/images_main/corporate-stationery-items-set-2229426967-gj4uj9rh.jpg" alt="Toys">
+    <p>Stationary & More</p>
+    <span class="offer">FLAT 90% OFF</span>
+  </div>
+  <div class="category">
+    <img src="https://image.made-in-china.com/365f3j00ohQactbBYdkg/Lunch-Box-with-Water-Bottle-Leak-Proof-Customized-Plastic-Wholesale-Bento-School-Lunch-Box-Kids-with-Water-Bottle-Set.webp" alt="Toys">
+    <p>Boxes & More</p>
+    <span class="offer">FLAT 90% OFF</span>
+  </div>
+  <div class="category">
+    <img src="https://cdn.thewirecutter.com/wp-content/media/2024/10/runningheadphones-2048px-09244-3x2-1.jpg" alt="Toys">
+    <p>Headphones & More</p>
+    <span class="offer">FLAT 90% OFF</span>
+  </div>
+
+  <!-- Add more categories as needed -->
+</section><br>
+<p style="background-color: black; color: white; padding: 8px; text-align: center;"> Grocery & Kitchen</b></P>
+<!-- Products Section -->
+<section class="products">
+  <div class="product-card"><a href="#">
+    <img src="https://4.imimg.com/data4/AY/TE/IMOB-27708947/c__data_users_defapps_appdata_internetexplorer_temp_sav-500x500.jpg" alt="Product"></a>
+       <h4>Fresh Vegetables</h4>
+      </div>
+      <div class="product-card"><a href="#">
+    <img src="https://static.wixstatic.com/media/94982f_48ed3886e31440f1abaf6adb618baedd~mv2.jpg/v1/fill/w_2500,h_1421,al_c/94982f_48ed3886e31440f1abaf6adb618baedd~mv2.jpg" alt="Product"></a>
+       <h4>Fresh Fruits</h4>
+      </div><div class="product-card"><a href="#">
+    <img src="https://img.freepik.com/premium-photo/dairy-products-with-bread-eggs_488220-32176.jpg" alt="Product"></a>
+       <h4>Dairy, Bread and Eggs</h4>
+      </div><div class="product-card"><a href="#">
+    <img src="https://img.freepik.com/premium-photo/assortment-meat-seafood-beef-chicken-fish-pork_996271-13179.jpg" alt="Product"></a>
+       <h4>Meat and Seafood</h4>
+      </div><div class="product-card"><a href="#">
+    <img src="https://static.toiimg.com/photo/84068085.cms" alt="Product"></a>
+       <h4>Oils and Ghee</h4>
+      </div><div class="product-card"><a href="#">
+    <img src="https://siribelenatural.com/public/uploads/products/WhatsApp-Image-2022-07-08-at-6.04_119591657284033.webp" alt="Product"></a>
+       <h4>Dry Fruits and Seeds Mix</h4>
+      </div><div class="product-card"><a href="#">
+    <img src="https://sssbalvikas.in/Healthy_Food_for_Healthy_Body/wp-content/uploads/2018/07/PIC-01-1.jpg" alt="Product"></a>
+       <h4>Biscuits and Cakes</h4>
+      </div>
+</section>
+<br>
+<p style="background-color: black; color: white; padding: 8px;text-align: center;">
+  <b>Snacks & Drinks</b>
+</p>
+
+<!-- Products Section -->
+<section class="products">
+  <div class="product-card"><a href="#">
+    <img src="https://wallpapers.com/images/hd/assorted-cold-drinks-collection-3mgji2i0uycrhzni.jpg" alt="Product"></a>
+       <h4>Cold Drinks and Juices</h4>
+      </div>
+      <div class="product-card"> <a href="#">
+    <img src="https://agronfoodprocessing.com/wp-content/uploads/2023/06/frozen-desserts.png" alt="Product"></a>
+       <h4>Ice Creams and Frozen Desserts</h4>
+      </div><div class="product-card">
+    <a href="#">
+  <img src="https://www.jiomart.com/images/category/29000/thumb/chips-namkeens-20240621.png" alt="Product">
+</a>
+       <h4>Chips and Namkeens</h4>
+      </div><div class="product-card"> <a href="#">
+    <img src="https://assets.oyegifts.com/flowers-n-gifts/vendordata/product/yuva1431.jpg"></a>
+       <h4>Chocolates</h4>
+      </div><div class="product-card"> <a href="#">
+    <img src="https://5.imimg.com/data5/SELLER/Default/2021/1/VI/QB/HF/99667186/macaroni-pasta-vermicelli.jpg" alt="Product"></a>
+       <h4>Noodles, Pasta, Vermicelli</h4>
+      </div><div class="product-card"> <a href="#">
+    <img src="https://www.designerpeople.com//wp-content/uploads/2022/11/frozen-food-packaging-design.png" alt="Product"></a>
+       <h4>Frozen Food</h4>
+      </div><div class="product-card"> <a href="#">
+    <img src="https://img.freepik.com/premium-photo/types-cakes-small-sweet-cakes-white-background-bakery-products_659681-5628.jpg" alt="Product"></a>
+       <h4>Sweet Corner</h4>
+      </div>
+</section><br>
+<p style="background-color: black; color: white; padding: 8px;text-align: center;">
+  <b>Beauty & Wellness</b>
+</p>
+
+<!-- Products Section -->
+<section class="products">
+  <div class="product-card"><a href="#">
+    <img src="https://indian-retailer.s3.ap-south-1.amazonaws.com/s3fs-public/news8851.jpg" alt="Product"></a>
+       <h4>Bath and Body</h4>
+      </div>
+      <div class="product-card"> <a href="#">
+    <img src="https://www.hcpwellness.in/wp-content/uploads/2024/02/haircare.jpg" alt="Product"></a>
+       <h4>Hair Care</h4>
+      </div><div class="product-card">
+    <a href="#">
+  <img src="https://images-cdn.ubuy.co.in/67031c6ebb24892b7658fdb5-all-in-one-makeup-kit-for-women-full-kit.jpg" alt="Product">
+</a>
+       <h4>Makeup</h4>
+      </div><div class="product-card"> <a href="#">
+    <img src="https://client.shivsofts.com/blog/uploads/1720764771.jpeg"></a>
+       <h4>Protein and Supplements</h4>
+      </div><div class="product-card"> <a href="#">
+    <img src="https://m.media-amazon.com/images/I/71L2LBWlmLL._UF1000,1000_QL80_.jpg" alt="Product"></a>
+       <h4>Health and Pharma</h4>
+      </div><div class="product-card"> <a href="#">
+    <img src="https://www.bhubaneswarflowershop.com/productimages/CSCSUUN451_big.jpg" alt="Product"></a>
+       <h4>Baby Care</h4>
+      </div><div class="product-card"> <a href="#">
+    <img src="https://media.allure.com/photos/635ab64ef19df33cb4d97cc9/4:3/w_1496,h_1122,c_limit/FRAGRANCE_16x9.png" alt="Product"></a>
+       <h4>Fragrances</h4>
+      </div>
+</section><br>
+<p style="background-color: black; color: white; padding: 8px;text-align: center;">
+  <b>Household & Lifestyle</b>
+</p>
+
+<!-- Products Section -->
+<section class="products">
+  <div class="product-card"><a href="#">
+    <img src="https://s3.ap-south-1.amazonaws.com/images.woodenstreet.de/image/data/Blog%20images/13thjuly/11.jpg" alt="Product"></a>
+       <h4>Home and Furnishing</h4>
+      </div>
+      <div class="product-card"> <a href="#">
+    <img src="https://www.hcpwellness.in/wp-content/uploads/2024/02/haircare.jpg" alt="Product"></a>
+       <h4>Kitchen and Dining</h4>
+      </div><div class="product-card">
+    <a href="#">
+  <img src="https://tiimg.tistatic.com/fp/1/008/776/all-types-books-stationary--245.jpg">
+</a>
+       <h4>Books and Stationery</h4>
+      </div><div class="product-card"> <a href="#">
+    <img src="https://img.grouponcdn.com/deal/ivFiFSeKSTokW6Nz849v/Hu-2048x1229/v1/c700x420.jpg"></a>
+       <h4>Sports and Fitness</h4>
+      </div><div class="product-card"> <a href="#">
+    <img src="https://images.picxy.com/cache/2021/6/4/f92e9de61b28543e07c502063d8cc34b.jpg" alt="Product"></a>
+       <h4>Jewellery and Accessories</h4>
+      </div><div class="product-card"> <a href="#">
+    <img src="https://content3.jdmagicbox.com/comp/udumalpet/a3/9999p4252.4252.190721190354.m4a3/catalogue/red-mobiles-and-fancy-karatholuvu-udumalpet-mobile-phone-dealers-ui8oplmw0v.jpg" alt="Product"></a>
+       <h4>Mobiles and Electronics</h4>
+      </div><div class="product-card"> <a href="#">
+    <img src="https://hgtvhome.sndimg.com/content/dam/images/hgtv/fullset/2012/9/11/3/RX-HGMAG005_Clean-House-Confessions-034-e_s4x3.jpg.rend.hgtvcom.1280.1280.85.suffix/1400977682672.webp"></a>
+       <h4>Cleaning Essentials</h4>
+      </div>
+</section>
+<p style="background-color: black; color: white; padding: 8px;text-align: center;"> Trending near you</b></P>
+<!-- Products Section -->
+<section class="products">
+  <div class="product-card">
+      <img src="https://www.padhuskitchen.com/wp-content/uploads/2009/09/pudina_coriander.jpg" alt="Product">
+    <p class="time">6 MINS</p>
+    <h4>Coriander ,Pudina</h4>
+    <p>₹10 <del>₹15</del></p>
+    <button>+</button>
+  </div>
+
+  <div class="product-card">
+      <img src="https://5.imimg.com/data5/ANDROID/Default/2021/1/LQ/UC/FB/81264412/fresh-tomato-jpg-500x500.jpg" alt="Product">
+    <p class="time">6 MINS</p>
+    <h4>Indian Tomato (Thakkali)</h4>
+    <p>₹16 <del>₹20</del></p>
+    <button>+</button>
+  </div><div class="product-card">
+      <img src="https://assets.hyperpure.com/data/images/products/e7e804b761bf7b56c7f36dc6ae862fe2.jpg" alt="Product">
+    <p class="time">6 MINS</p>
+    <h4>Onion (Vengayam)</h4>
+    <p>₹20 <del>₹35</del></p>
+    <button>+</button>
+  </div><div class="product-card">
+      <img src="https://www.hap.in/hatsun/images/curd/big/Curd-Tub.jpg" alt="Product">
+    <p class="time">6 MINS</p>
+    <h4>Hatsun Curd 500g</h4>
+    <p>₹35 <del>₹40</del></p>
+    <button>+</button>
+  </div><div class="product-card">
+      <img src="https://bajarhaat.com/wp-content/uploads/2021/02/Shalimars-Sunflower-Oil-1-Liter-Pouch.webp" alt="Product">
+    <p class="time">6 MINS</p>
+    <h4>Gold Winner Refined Sunflower Oil 1 ltr</h4>
+    <p>₹145 <del>₹180</del></p>
+    <button>+</button>
+  </div><div class="product-card">
+      <img src="https://img.clevup.in/325460/milky-mist-paneer-200gm-1696660082383_SKU-2139_0.jpg?format=webp" alt="Product">
+    <p class="time">6 MINS</p>
+    <h4>Milky Mist Paneer 40g</h4>
+    <p>₹99 <del>₹150</del></p>
+    <button>+</button>
+  </div><div class="product-card">
+      <img src="https://img-cdn.publive.online/fit-in/640x430/filters:format(webp)/tamil-ie/media/media_files/uploads/2021/12/tamil-indian-express-2021-11-25T185033.951.jpg" alt="Product">
+    <p class="time">6 MINS</p>
+    <h4>Red Banana (Chevv Vazhaipazham) 4pieces</h4>
+    <p>₹59 <del>₹99</del></p>
+    <button>+</button>
+  </div><div class="product-card">
+      <img src="https://static.wixstatic.com/media/837c1d_74abdcd06c494554a4f4c682f0c29758~mv2.jpg/v1/fit/w_500,h_500,q_90/file.jpg" alt="Product">
+    <p class="time">6 MINS</p>
+    <h4>Green Chilli (Pachai Milagai) 100gm</h4>
+    <p>₹39<del>₹50</del></p>
+    <button>+</button>
+  </div><div class="product-card">
+      <img src="https://assets.hyperpure.com/data/images/products/206e358219f0094bc09e6559f9f6dcff.jpg" alt="Product">
+    <p class="time">6 MINS</p>
+    <h4>Potato (Urulaikizhangu) 1 kg</h4>
+    <p>₹40 <del>₹80</del></p>
+    <button>+</button>
+  </div><div class="product-card">
+      <img src="https://cdn.grofers.com/da/cms-assets/cms/product/b433a9ff-c6b1-4084-b1b5-d4e001f401f6.jpg" alt="Product">
+    <p class="time">6 MINS</p>
+    <h4>Kkp White Regular Eggs 6Pc </h4>
+    <p>₹52 <del>₹82</del></p>
+    <button>+</button>
+  </div>
+</section>
+  <footer>
+    <div class="footer-content">
+      <div>
+        <ul> <a href="#">
+        <img src="images/logo.png" alt="mockiggy Logo">
+      </a>
+    </ul></div>
+      <div>
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Mockiggy Food</a></li>
+          <li><a href="#">Mockiggy Instamart</a></li>
+           <li><a href="#">Mockiggy Groceries</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Contact Us</h4>
+        <ul>
+          <li><a href="#">Help Center</a></li>
+          <li><a href="#">Ratings</a></li>
+          <li><a href="#">Track Order</a></li>
+        </ul>
+      </div>
+      
+      <div>
+        <h4>Available in:</h4>
+        <ul>
+          <li><a href="#">Bangalore</a></li>
+          <li><a href="#">Chennai</a></li>
+          <li><a href="#">Guregon</a></li>
+          <li><a href="#">Delhi</a></li>
+          <li><a href="#">Kolkata</a></li>
+          <li><a href="#">Mumbai</a></li>
+       <button>685 cities &#9662;</button>
+
+        </ul>
+      </div>
+    </div>
+    <p>&copy; This is a student demo project and is not affiliated with any commercial brand.
+
+© 2025 Mockiggy Mockup. Created for educational purposes.</p>
+  </footer>
+
+
+
+<script>// Function to add scrolling functionality for a wrapper
+
+  // GPS option
+const manualInput = document.getElementById('manualLocation');
+const locateBtn = document.getElementById('locateBtn');
+
+// GPS option
+locateBtn.addEventListener('click', () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(
+      position => {
+        const lat = position.coords.latitude;
+        const lon = position.coords.longitude;
+
+        fetch(`https://nominatim.openstreetmap.org/reverse?format=jsonv2&lat=${lat}&lon=${lon}`)
+          .then(res => res.json())
+          .then(data => {
+            const address = data.display_name || `${lat.toFixed(5)}, ${lon.toFixed(5)}`;
+            manualInput.value = address; // fill input box with detected location
+          })
+          .catch(() => {
+            manualInput.value = `${lat.toFixed(5)}, ${lon.toFixed(5)}`;
+          });
+      },
+      () => {
+        manualInput.value = "Location access denied";
+      },
+      { enableHighAccuracy: true }
+    );
+  } else {
+    manualInput.value = "Geolocation not supported";
+  }
+});
+
+// Manual typing option
+manualInput.addEventListener('input', () => {
+  console.log("User entered:", manualInput.value);
+  // 👉 You can send this to backend for search suggestions
+});
+</script>
+</div>
+</body>
+</html>
